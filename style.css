@@ -1,0 +1,244 @@
+/* =========================
+   GLOBAL STYLES
+   ========================= */
+* {
+  box-sizing: border-box;
+  font-family: 'Nunito', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fff1f4, #f3f0ff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #444;
+  overflow: hidden;
+}
+
+.container {
+  text-align: center;
+  padding: 24px;
+  max-width: 420px;
+  width: 100%;
+}
+
+.intro {
+  margin-bottom: 50px;
+  opacity: 0.9;
+}
+
+.hint {
+  margin-top: 30px;
+  font-size: 0.9rem;
+  opacity: 0.8;
+  user-select: none;
+}
+
+/* =========================
+   GIFT BOX
+   ========================= */
+.gift {
+  width: 160px;
+  height: 160px;
+  margin: 0 auto;
+  position: relative;
+  cursor: pointer;
+  perspective: 600px;
+  z-index: 1;
+}
+
+.gift-box {
+  width: 100%;
+  height: 100%;
+  background: #ff6f91;
+  border-radius: 16px;
+  position: relative;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+/* Ribbon horizontal */
+.gift-box::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  background: #fff3;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+/* Ribbon vertical */
+.gift-box::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 20px;
+  height: 100%;
+  background: #fff3;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+/* Lid */
+.gift-lid {
+  position: absolute;
+  top: -24px;
+  left: 0;
+  width: 100%;
+  height: 36px;
+  background: #ff95a2;
+  border-radius: 16px 16px 0 0;
+  transform-origin: bottom center;
+  transition: transform 0.6s ease;
+  z-index: 3;
+}
+
+/* =========================
+   BOW
+   ========================= */
+.bow {
+  position: absolute;
+  top: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+}
+
+.bow-center {
+  width: 20px;
+  height: 24px;
+  background: linear-gradient(to right, #fff, #f5f5f5);
+  border-radius: 5px;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.bow-left, .bow-right {
+  position: absolute;
+  width: 35px;
+  height: 32px;
+  background: linear-gradient(135deg, #fff 0%, #f5f5f5 100%);
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  top: -4px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+}
+
+.bow-left { right: 15px; transform-origin: right center; }
+.bow-right { left: 15px; transform-origin: left center; }
+
+.bow-ribbon-left, .bow-ribbon-right {
+  position: absolute;
+  width: 14px;
+  height: 24px;
+  background: linear-gradient(to bottom, #fff, #f0f0f0);
+  top: 24px;
+  clip-path: polygon(20% 0, 80% 0, 100% 100%, 50% 85%, 0 100%);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.bow-ribbon-left { right: 3px; transform: rotate(-15deg); }
+.bow-ribbon-right { left: 3px; transform: rotate(15deg); }
+
+/* =========================
+   BOW ANIMATION
+   ========================= */
+.gift.open .bow { animation: bowPopAndFall 1.2s ease-in forwards; }
+.gift.open .bow-left { animation: loopSpinLeft 1.2s ease-in forwards; }
+.gift.open .bow-right { animation: loopSpinRight 1.2s ease-in forwards; }
+.gift.open .bow-ribbon-left,
+.gift.open .bow-ribbon-right { animation: ribbonFall 1.2s ease-in forwards; }
+
+/* tambahan untuk emoji acak */
+.heart-float {
+  position: absolute;
+  font-size: var(--size, 16px);
+  animation: floatUp var(--duration, 2.5s) ease forwards;
+  z-index: 30;
+  pointer-events: none;
+}
+
+@keyframes floatUp {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  50% { opacity: 0.7; }
+  100% { opacity: 0; transform: translateY(-120px) scale(1.3); }
+}
+
+
+@keyframes bowPopAndFall {
+  0% { transform: translateX(-50%) translateY(0) rotate(0deg); }
+  20% { transform: translateX(-50%) translateY(-30px) rotate(-15deg); }
+  100% { transform: translateX(-50%) translateY(200px) rotate(180deg); opacity: 0; }
+}
+@keyframes loopSpinLeft {
+  0% { transform: translateX(0) rotate(0deg); opacity:1; }
+  30% { transform: translateX(-15px) rotate(-45deg); }
+  100% { transform: translateX(-40px) rotate(-360deg); opacity:0; }
+}
+@keyframes loopSpinRight {
+  0% { transform: translateX(0) rotate(0deg); opacity:1; }
+  30% { transform: translateX(15px) rotate(45deg); }
+  100% { transform: translateX(40px) rotate(360deg); opacity:0; }
+}
+@keyframes ribbonFall { 0%{opacity:1} 50%{opacity:0.5} 100%{opacity:0} }
+.gift.open .gift-lid { transform: rotateX(120deg); }
+.gift.shake { animation: shake 0.4s; }
+@keyframes shake { 0%{rotate:0} 25%{rotate:2deg} 50%{rotate:-2deg} 75%{rotate:1deg} 100%{rotate:0} }
+
+/* =========================
+   CARD
+   ========================= */
+.card {
+  display: none;
+  background: #ffffffcc;
+  backdrop-filter: blur(6px);
+  border-radius: 18px;
+  padding: 28px 22px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  animation: fadeUp 0.8s ease forwards;
+  position: relative;
+  z-index: 10;
+}
+.card p { margin-bottom: 14px; line-height: 1.6; }
+.star { font-size: 1.4rem; cursor: pointer; margin-top: 10px; }
+.final { display: none; margin-top: 14px; opacity: 0.9; }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+
+/* =========================
+   PIÑATA BURST
+   ========================= */
+.streamer {
+  position: absolute;
+  width: 6px;
+  height: 24px;
+  border-radius: 3px;
+  animation: fly 1.6s ease-out forwards;
+  z-index: 20; /* pastikan muncul di atas */
+}
+
+@keyframes fly {
+  from { transform: translate(0,0) rotate(0); opacity:1; }
+  to { transform: translate(var(--x), var(--y)) rotate(360deg); opacity:0; }
+}
+
+/* =========================
+   FLOATING HEARTS
+   ========================= */
+.heart {
+  position: absolute;
+  font-size: 16px;
+  animation: floatUp 2.5s ease forwards;
+  z-index: 30; /* pastikan muncul di atas semua */
+}
+
+@keyframes floatUp {
+  from { opacity:1; transform:translateY(0); }
+  to { opacity:0; transform:translateY(-120px); }
+}
